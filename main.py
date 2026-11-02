@@ -4,7 +4,7 @@ import sys
 
 from messages import is_valid, normalize
 
-GREETING = "Мини-мессенджер: проверка сообщений"
+GREETING = "Мини-мессенджер v2: проверка текста"
 
 
 def main(args):
