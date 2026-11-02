@@ -13,3 +13,9 @@ def test_empty_message_is_invalid():
 
 def test_too_long_message_is_invalid():
     assert not is_valid("x" * (MAX_LENGTH + 1))
+
+
+def test_shorten_long_text():
+    from messages import shorten
+
+    assert shorten("a" * 60, limit=10) == "a" * 9 + "…"
