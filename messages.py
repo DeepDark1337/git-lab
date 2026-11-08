@@ -18,3 +18,7 @@ def shorten(text, limit=50):
     """Сократить сообщение для превью в списке чатов."""
     text = normalize(text)
     return text if len(text) <= limit else text[: limit - 1] + "…"
+
+
+def word_count(text):
+    return len(normalize(text).split())
