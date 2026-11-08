@@ -1,0 +1,22 @@
+#!/bin/sh
+# pre-commit: запускается перед каждым коммитом.
+# Если скрипт завершается с ошибкой (exit 1), коммит отменяется.
+export PYTHONUTF8=1   # вывод black/pytest в UTF-8 (нужно в Windows)
+
+# 1. Форматирование: проверяем только Python-файлы, добавленные в коммит
+FILES=$(git diff --cached --name-only --diff-filter=ACM -- '*.py')
+if [ -n "$FILES" ]; then
+    echo "[pre-commit] black: проверка форматирования"
+    if ! python -m black --check $FILES; then
+        echo "[pre-commit] Код не отформатирован. Выполните: python -m black <файлы>"
+        exit 1
+    fi
+fi
+
+# 2. Тесты: коммит возможен, только если все тесты проходят
+echo "[pre-commit] pytest: запуск тестов"
+if ! python -m pytest -q; then
+    echo "[pre-commit] Тесты не прошли — коммит отменён."
+    exit 1
+fi
+echo "[pre-commit] Проверки пройдены."
